@@ -62,6 +62,14 @@ public class SnakeGame extends GameWindowBase<String> {
         //#####################################################################################################
         // STUDENT TODO: Create snakes here
 
+        for (int i = 0; i < 5; i++) {
+            snakeBodyPlayer0.add(root.setElement(1+i,1, 'x',null));
+        }
+
+        for (int i = 0; i < 5; i++) {
+            snakeBodyPlayer1.add(root.setElement(10+i,10, 'o',null));
+        }
+
 
         //#####################################################################################################
 
@@ -80,7 +88,11 @@ public class SnakeGame extends GameWindowBase<String> {
         //#####################################################################################################
         // STUDENT TODO: Implement a method to get the players keystroke and update the direction accordingly.
 
+        if(keyStrokePlayer0 != SpecialCharacterKey.NONE)
+            direction0 = keyStrokePlayer0;
 
+        if(keyStrokePlayer1 != SpecialCharacterKey.NONE)
+            direction1 = keyStrokePlayer1;
 
         //#####################################################################################################
 
@@ -92,6 +104,8 @@ public class SnakeGame extends GameWindowBase<String> {
         //#####################################################################################################
         // STUDENT TODO: Check if a payer is gameover
 
+        this.isGameOver(this.snakeBodyPlayer0);
+        this.isGameOver(this.snakeBodyPlayer1);
 
         //#####################################################################################################
 
@@ -105,6 +119,15 @@ public class SnakeGame extends GameWindowBase<String> {
         // STUDENT TODO: Implement logic to check if a snake hit another snake or border. To do this you mus
         // implement the function Boolean inSnake(ArrayList<WindowElementItem> snakeBody)
         // After that set class member gameover to true and clear screen
+        //Border 2
+
+        gameOver = gameOver || snakeBody.get(0).getX() == root.getWidth()-2;
+        gameOver = gameOver ||snakeBody.get(0).getX() == 0;
+
+        gameOver = gameOver || snakeBody.get(0).getY() == root.getHeight()-2;
+        gameOver = gameOver ||snakeBody.get(0).getY() == 0;
+
+
     }
 
     public Boolean inSnake(ArrayList<WindowElementItem> snakeBody)
