@@ -11,8 +11,7 @@ import at.htl.leoben.socket.data.SpecialCharacterKey;
 import at.htl.leoben.windows.style.DefaultStyle;
 import static org.fusesource.jansi.Ansi.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 
@@ -120,6 +119,9 @@ public class SnakeGame extends GameWindowBase<String> {
         // implement the function Boolean inSnake(ArrayList<WindowElementItem> snakeBody)
         // After that set class member gameover to true and clear screen
         //Border 2
+        if(gameOver)
+            return;
+
 
         gameOver = gameOver || snakeBody.get(0).getX() == root.getWidth()-2;
         gameOver = gameOver ||snakeBody.get(0).getX() == 0;
@@ -127,15 +129,47 @@ public class SnakeGame extends GameWindowBase<String> {
         gameOver = gameOver || snakeBody.get(0).getY() == root.getHeight()-2;
         gameOver = gameOver ||snakeBody.get(0).getY() == 0;
 
+        gameOver = gameOver || inSnake(snakeBody);
 
+        if(gameOver) {
+
+            this.snakeBodyPlayer0.clear();
+            this.snakeBodyPlayer1.clear();
+
+            gameOverScreen.setText(gameOverText);
+            direction0 = direction1 = SpecialCharacterKey.NONE;
+
+        }
     }
 
     public Boolean inSnake(ArrayList<WindowElementItem> snakeBody)
     {
         // STUDENT TODO: Implement a method to check if a head of the provided snake body hit
         // another snake body
-        int posHeadX = snakeBody.get(0).getX();
-        int posHeadY = snakeBody.get(0).getY();
+        WindowElementItem snakeHead = snakeBody.get(0);
+
+        // Player 0
+        for (WindowElementItem snakeElement: snakeBodyPlayer0) {
+
+            if(!snakeElement.equals(snakeHead) &&
+                    snakeHead.getX() == snakeElement.getX() &&
+                    snakeHead.getY() == snakeElement.getY()){
+
+                return true;
+            }
+        }
+
+        // Player 1
+        for (WindowElementItem snakeElement: snakeBodyPlayer1) {
+
+            if(!snakeElement.equals(snakeHead) &&
+                    snakeHead.getX() == snakeElement.getX() &&
+                    snakeHead.getY() == snakeElement.getY()){
+
+                return true;
+            }
+        }
+
         return false;
     }
 
@@ -218,12 +252,19 @@ public class SnakeGame extends GameWindowBase<String> {
 
         // Student TODO: Write a method to add a new body element to the snake and print it to the gamescreen
 
+
     }
 
 
     public void spawnApple()
     {
         // STUDENT TODO: Write a method to randomly spawn apples. Use the applescount member variable for this task
+        int posX =  (int) (Math.random() * 40) + 1;
+        int posY =  (int) (Math.random() * 20) + 1;
+
+        apples.add(root.setElement(posX, posY, 'a', null));
+
+
     }
 
 }
