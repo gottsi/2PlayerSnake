@@ -218,12 +218,21 @@ public class SnakeGame extends GameWindowBase<String> {
 
         // Student TODO: Write a method to add a new body element to the snake and print it to the gamescreen
 
+        if (hittedApple == -1) {
+            return;
+        }
+
+        apples.get(hittedApple).setText(null);
+        apples.remove(hittedApple);
+        snakeBody.add(root.setElement(oldLastX, oldLastY, 'X', null));
     }
 
 
     public void spawnApple()
     {
         // STUDENT TODO: Write a method to randomly spawn apples. Use the applescount member variable for this task
+
+
     }
 
 }
